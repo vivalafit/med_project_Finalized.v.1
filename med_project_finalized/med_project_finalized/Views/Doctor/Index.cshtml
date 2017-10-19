@@ -1,0 +1,35 @@
+﻿@using Microsoft.AspNet.Identity
+<link type="text/css" rel="stylesheet" href="@Url.Content("~/Content/Home_new.css")" />
+@{
+    ViewBag.Title = "Index";
+}
+
+<body style="margin-right:15%">
+   <div id="leftSidebar">
+      
+               <h2>Здравствуйте,<strong>@User.Identity.GetUserName()</strong></h2>
+          
+       <ul style=" margin-left:20px">
+           <li class="active">@Html.ActionLink("Home", "Index", "Home")</li>
+           <li>@Html.ActionLink("About", "About", "Home")</li>
+           <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
+       </ul>
+       <link href='@Url.Content("~/Content/themes/base/jquery-ui.css")' rel="stylesheet" type="text/css" />
+   </div>
+    <div id="article">
+       
+        <h2 style=" font-family: 'Open Sans Condensed', sans-serif; font-size: 24px; color: #333;">Поиск Пациента : </h2>
+        <div>
+            @using (Ajax.BeginForm("PacientSearch", new AjaxOptions { UpdateTargetId = "results" }))
+            {   
+                @Html.DropDownList("Name", (IEnumerable<SelectListItem>)ViewBag.Pacients, "Не выбрано",new { @id = "list", @style = "height: 60px;width:400" })
+                <input type="submit" id="Find" name="Search" />
+            }
+            
+            <div id="results"></div>
+        </div>
+    </div>
+
+    @Scripts.Render("~/scripts/jquery-1.12.4.min.js")
+    @Scripts.Render("~/scripts/jquery.unobtrusive-ajax.min.js")
+</body>

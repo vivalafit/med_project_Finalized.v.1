@@ -1,0 +1,53 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <link type="text/css" rel="stylesheet" href="@Url.Content("~/Content/Home_new.css")" />
+
+    <title>Main</title>
+</head>
+<body>
+    <div id="header">
+        <h1>DOCtorize</h1>
+        <div id="nav">
+            <ul>
+                @Html.Partial("_LoginPartial")
+                @if (this.User.IsInRole("Doctor"))
+                {
+                    @Html.Partial("DoctorPagePartial")
+                }
+                @if (this.User.IsInRole("Pacient"))
+                {
+                    @Html.Partial("PacientPagePartial")
+                }
+            </ul>
+        </div>
+    </div>
+    <div class="wrapper">
+        <div id="sidebar1" class="aside">
+            <h2 style="background-color:lightgray">Sidebar_1</h2>
+            <p>
+                test_sidebar_1
+            </p>
+        </div>
+        <div id="sidebar2" class="aside">
+            <h2 style="background-color:lightgray">Sidebar_2</h2>
+           
+            <h3>Options</h3>
+            <ul>
+                <li>Item1</li>
+                <li>Item2</li>
+                <li>Item3</li>
+            </ul>
+        </div>
+        <div id="article">
+           <h2 style="background-color:lightgray">Test_Main_Content</h2>
+        </div>
+    </div>
+    <div id="footer">
+        <p>Contacts: admin@mysyte.com</p>
+        <p>Copyright © MySyte.com, 2016</p>
+    </div>
+</body>
+</html>
+

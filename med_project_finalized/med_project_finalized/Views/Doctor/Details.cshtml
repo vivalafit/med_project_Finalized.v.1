@@ -1,0 +1,77 @@
+﻿@model IEnumerable<med_project_finalized.Models.Diagnoses>
+
+@{
+    ViewBag.Title = "Details";
+}
+<head>
+    <link type="text/css" rel="stylesheet" href="@Url.Content("~/Content/Diagnosis_1.css")" />
+    <meta charset="utf-8">
+
+</head>
+
+<body>
+    <div style="background-color:azure">
+
+        <br />
+        <h3>Диагнозы</h3>
+        <br />
+        <div>
+            <table>
+                <tr>
+                    <th>Diagnosis</th>
+                    <th>Details</th>
+                    <th>TimeAdded</th>
+                    <th>IsCured</th>
+                </tr>
+                @foreach (var item in Model)
+                {
+                    string status = "notCured";
+                    if (item.IsCured == true)
+                    {
+                        status = "cured";
+                    }
+                    <tr>
+                        <td style="height:50px">@item.Diagnosis</td>
+                        <td>@item.Details</td>
+                        <td>@item.TimeAdded</td>
+                        <td class=@status>
+                            @item.IsCured | @Html.ActionLink("Редактирование Диагноза", "EditPacientInfo", "Doctor", new { name = item.Diagnosis }, new { @class = "viewDialog", data_dialog_title = "Редактирование диагноза" }) |
+                            @Html.ActionLink("Delete", "Delete", new { @id = item.Id }, new { @class = "delete", @id = item.Id })
+                        </td>
+                    </tr>
+
+                }
+            </table>
+
+        </div>
+    </div>
+</body>
+
+
+@Scripts.Render("~/scripts/jquery-1.12.4.min.js")
+@Scripts.Render("~/scripts/jquery.unobtrusive-ajax.min.js")
+<script type="text/javascript">
+
+      $(document).ready(function () {
+
+          $('a.delete').click(OnDeleteClick);
+
+      });
+    function OnDeleteClick(e) {
+        var diagnosisId = e.target.id;
+        var flag = confirm('Вы удаляете данный диагноз :' + diagnosisId + ' . Вы действительно хотите удалить данный диагноз?');
+        if (flag) {
+            $.ajax({
+                url: '/Doctor/Delete',
+                type: 'POST',
+                data: { id: diagnosisId },
+                dataType: 'json',
+                success: function (result) { alert(result); $("#" + diagnosisId).parent().parent().remove(); },
+                error: function () { alert('Error!'); }
+            });
+        }
+        return false;
+    }
+
+</script>
+
